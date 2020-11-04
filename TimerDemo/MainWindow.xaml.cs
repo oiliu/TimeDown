@@ -55,7 +55,7 @@ namespace TimerDemo
             {
                 TipWin tw = new TipWin();
                 tw.main = this;
-                tw.ShowDialog();
+                tw.ShowDialog(); 
             }
             else
             {
