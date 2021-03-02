@@ -8,6 +8,7 @@
         Title="MainWindow" Height="350" Width="525" Background="#ddd" MouseDown="Window_MouseDown">
     <Window.Resources>
         <ResourceDictionary>
+            <local:ValueToProcessConverter x:Key="ValueToProcessConverter"/>
             <Style TargetType="Button" x:Key="btn">
                 <Setter Property="Height" Value="50" />
                 <Setter Property="Width" Value="90" />
@@ -35,7 +36,7 @@
                 <RowDefinition Height="2*" />
                 <RowDefinition />
             </Grid.RowDefinitions>
-            <StackPanel x:Name="sTimer" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center">
+            <StackPanel x:Name="sTimer" Visibility="Visible" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center">
                 <TextBox MouseWheel="numberWheelchange" Text="0" x:Name="txt1" Style="{StaticResource txt}" />
                 <TextBlock Text="时" Style="{StaticResource block}" />
                 <TextBox MouseWheel="numberWheelchange" Text="1" x:Name="txt2" Style="{StaticResource txt}" />
@@ -43,8 +44,11 @@
                 <TextBox MouseWheel="numberWheelchange" Text="1" x:Name="txt3" Style="{StaticResource txt}" />
                 <TextBlock Text="秒" Style="{StaticResource block}" />
             </StackPanel>
-            <Border x:Name="bd" Visibility="Collapsed" Width="400" Background="#ddd" Height="55" BorderBrush="#ccc" BorderThickness="0,0,3,3">
-                <TextBlock x:Name="txtBd" Text="00:00:00" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="44" Foreground="SaddleBrown" />
+            <Border x:Name="bd" Visibility="Collapsed" Width="400" Background="#ddd" Height="220" BorderBrush="#ccc" BorderThickness="0,0,3,3">
+                <Grid>
+                    <local:CycleProcessBar1 x:Name="circleProgressBar" CurrentValue1="0" />
+                    <TextBlock x:Name="txtBd" Text="00:00:00" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="44" Foreground="SaddleBrown" />
+                </Grid>
             </Border>
             <StackPanel Grid.Row="1" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center">
                 <Button Content="取消" Background="Azure" Width="80" Height="40" Style="{StaticResource btn}" Click="Button_Click_1" />

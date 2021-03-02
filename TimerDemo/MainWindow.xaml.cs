@@ -28,15 +28,17 @@ namespace TimerDemo
         }
         DispatcherTimer timer;
         int hour = -1;
-        int minus = -1;
+        int minute = -1;
         int second = -1;
 
         public void InitData()
         {
+            totalSecond = 1;
+            begin = false;
             btn_start.IsEnabled = true;
             timer.Stop();
             hour = -1;
-            minus = -1;
+            minute = -1;
             second = -1;
             bd.Visibility = Visibility.Collapsed;
         }
@@ -49,26 +51,28 @@ namespace TimerDemo
             timer.Tick += Timer_Tick;
         }
 
+        double totalSecond = 1;
+        double t = 0.00;
         private void Timer_Tick(object sender, EventArgs e)
         {
-            if (hour == 0 && minus == 0 && second == 0)
+            if (hour == 0 && minute == 0 && second == 0)
             {
                 TipWin tw = new TipWin();
                 tw.main = this;
-                tw.ShowDialog(); 
+                tw.ShowDialog();
             }
             else
             {
                 if (second == 0)
                 {
-                    if (minus == 0)
+                    if (minute == 0)
                     {
                         hour--;
-                        minus = 60;
+                        minute = 60;
                     }
                     else
                     {
-                        minus--;
+                        minute--;
                         second = 60;
                     }
                 }
@@ -76,24 +80,34 @@ namespace TimerDemo
                 {
                     second--;
                 }
+                txtBd.Text = hour + ":" + minute + ":" + second;
 
-                txtBd.Text = hour + ":" + minus + ":" + second;
+                if (begin)
+                {
+                    double _t = Convert.ToDouble(100.00 / t / 100.00);
+                    totalSecond = totalSecond - _t;
+                }
+                circleProgressBar.CurrentValue1 = totalSecond <= 0 ? 0 : totalSecond;
             }
         }
 
+        bool begin = false;
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             try
             {
                 hour = Convert.ToInt32(txt1.Text.ToString());
-                minus = Convert.ToInt32(txt2.Text.ToString());
+                minute = Convert.ToInt32(txt2.Text.ToString());
                 second = Convert.ToInt32(txt3.Text.ToString());
+
+                t = hour * 60 * 60 + minute * 60 + second;
 
                 btn_start.IsEnabled = false;
                 notifyIcon.BalloonTipText = "计时开始";
                 this.Visibility = Visibility.Hidden;
                 bd.Visibility = Visibility.Visible;
                 timer.Start();
+                begin = true;
             }
             catch
             {
