@@ -5,14 +5,35 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TimerDemo" ResizeMode="NoResize"
         mc:Ignorable="d" WindowStartupLocation="CenterScreen" WindowStyle="None"
-        Title="MainWindow" Height="350" Width="525" Background="#ddd" MouseDown="Window_MouseDown">
+        Title="MainWindow" Height="350" Width="525" Background="#0A0B31" MouseDown="Window_MouseDown">
     <Window.Resources>
         <ResourceDictionary>
             <local:ValueToProcessConverter x:Key="ValueToProcessConverter"/>
             <Style TargetType="Button" x:Key="btn">
                 <Setter Property="Height" Value="50" />
                 <Setter Property="Width" Value="90" />
-                <Setter Property="Margin" Value="10,0" />
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="{x:Type Button}">
+                                    <Border x:Name="Bd"
+                                Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}">
+                                        <Grid HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}">
+                                            <ContentPresenter Margin="{TemplateBinding Padding}"
+                                                  HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                                  VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                                  RecognizesAccessKey="True" />
+                                        </Grid>
+                                    </Border>
+                                    <ControlTemplate.Triggers>
+                                        <Trigger Property="IsPressed" Value="True">
+                                            <Setter TargetName="Bd" Property="Background" Value="#FF032241" />
+                                        </Trigger>
+                                    </ControlTemplate.Triggers>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
             </Style>
             <Style TargetType="TextBox" x:Key="txt">
                 <Setter Property="Width" Value="60" />
@@ -21,16 +42,19 @@
                 <Setter Property="FontSize" Value="25" />
                 <Setter Property="VerticalContentAlignment" Value="Center" />
                 <Setter Property="HorizontalContentAlignment" Value="Center" />
+                <Setter Property="Background" Value="#131446" />
+                <Setter Property="Foreground" Value="#727AAF" />
             </Style>
             <Style TargetType="TextBlock" x:Key="block">
                 <Setter Property="Margin" Value="10,0" />
                 <Setter Property="FontSize" Value="30"  />
                 <Setter Property="VerticalAlignment" Value="Center" />
                 <Setter Property="HorizontalAlignment" Value="Center" />
+                <Setter Property="Foreground" Value="#727AAF" />
             </Style>
         </ResourceDictionary>
     </Window.Resources>
-    <Border BorderBrush="#000" BorderThickness="4">
+    <Border BorderBrush="#222445" BorderThickness="4">
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="2*" />
@@ -44,15 +68,46 @@
                 <TextBox MouseWheel="numberWheelchange" Text="1" x:Name="txt3" Style="{StaticResource txt}" />
                 <TextBlock Text="秒" Style="{StaticResource block}" />
             </StackPanel>
-            <Border x:Name="bd" Visibility="Collapsed" Width="400" Background="#ddd" Height="220" BorderBrush="#ccc" BorderThickness="0,0,3,3">
+            <Border x:Name="bd" Visibility="Collapsed" Width="400" Background="#0A0B31" Height="220">
                 <Grid>
                     <local:CycleProcessBar1 x:Name="circleProgressBar" CurrentValue1="0" />
-                    <TextBlock x:Name="txtBd" Text="00:00:00" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="44" Foreground="SaddleBrown" />
+                    <TextBlock x:Name="txtBd" Text="00:00:00" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="44" Foreground="#727AAF" />
                 </Grid>
             </Border>
             <StackPanel Grid.Row="1" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center">
-                <Button Content="取消" Background="Azure" Width="80" Height="40" Style="{StaticResource btn}" Click="Button_Click_1" />
-                <Button x:Name="btn_start" Content="开始" Style="{StaticResource btn}" Click="Button_Click" />
+                <Button Content="取消" Background="#FF7477" BorderBrush="#FF8F8F" Foreground="White" Width="60" Margin="0,0,20,0" Height="30" Click="Button_Click_1" Style="{StaticResource btn}" />
+                <Button x:Name="btn_start" Content="开始" Width="90" Height="40" Click="Button_Click" >
+                    <Button.Style>
+                        <Style TargetType="{x:Type Button}">
+                            <Setter Property="Background" Value="#5E83FB" />
+                            <Setter Property="BorderBrush" Value="#AF81FF" />
+                            <Setter Property="FontSize" Value="20" />
+                            <Setter Property="Foreground" Value="White" />
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="{x:Type Button}">
+                                        <Border x:Name="Bd"
+                                Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}">
+                                            <Grid HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}">
+                                                <ContentPresenter Margin="{TemplateBinding Padding}"
+                                                  HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                                  VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                                  RecognizesAccessKey="True" />
+                                            </Grid>
+                                        </Border>
+                                        <ControlTemplate.Triggers>
+                                            <Trigger Property="IsPressed" Value="True">
+                                                <Setter TargetName="Bd" Property="Background" Value="#FF032241" />
+                                            </Trigger>
+                                        </ControlTemplate.Triggers>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </Button.Style>
+                </Button>
             </StackPanel>
         </Grid>
     </Border>
